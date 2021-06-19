@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+ <!--------------------------------------Luis Toro M/W 9:15-10:30 AM-------------------------------------------------------------->
+
+
+ <!-------------------------------------------CSS Goes here---------------------------------------------------------------------------->
+ <style>
+
+    input{
+        margin: 0px 20px 15px 10px ;
+    }
+
+    #btn{
+        margin-left: 50px;
+    }
+
+    .cell{
+        color:black;
+        text-align: center;
+        border: 3px solid;
+        height: 45px;
+        width: 45px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .red{
+        background-color: red;
+    }
+    
+    .yellow{
+        background-color: yellow;
+    }
+
+    html{
+        font-size: 25px;
+    }
+
+    #board{
+        text-align: center;
+    }
+    
+    @media only screen and (max-width: 700px) {
+  .cell {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+ </style>
+ <!------------------------------------------- JS Goes here---------------------------------------------------------------------------->
+ <script> 
+
+    function isInfected(){
+        var x;
+        /* Reduce frequency of virus*/
+        x = Math.floor(Math.random() * 5);
+        if(x == 0) return "V";
+        return "&nbsp";
+    }
+
+    
+    function buildThis(){
+
+        /* Resetting Purposes*/
+        document.getElementById("board").innerHTML = '';
+        document.getElementById("cure").checked = false;;
+    
+        var height = parseInt(document.getElementById("heightOf").value)
+        var width = parseInt(document.getElementById("widthOf").value)
+        /* Out of Bound Warning*/
+        if(height > 9 || width > 9 || height < 1 || width < 1 ) return alert("Please enter a number between 1 and 9. \n Thank You.");
+
+        var i, j, v;
+        document.getElementById("board").innerHTML = '<h1><u>Virus Box<u></h1>'
+        for(i = 0; i < height; i++){
+            for(j = 0; j < width; j++){
+                v = isInfected();
+                if((i+j)%2 == 0){
+                    document.getElementById("board").innerHTML += '<div class="cell red" onclick="clickMe()">'+v;
+                } 
+
+                else {
+                    isInfected();
+                    document.getElementById("board").innerHTML += '<div class="cell yellow" onclick="clickMe()">'+v; 
+                }
+                document.getElementById("board").innerHTML += '</div>';
+           }
+           document.getElementById("board").innerHTML += "<br>";
+       }
+    }
+
+    var isChecked = document.getElementById("cure");
+    function clickMe(){
+        var element = document.getElementsByClassName("cell");
+        for(var i = 0; i< element.length; i++){
+            isChecked = document.getElementById("cure");
+            element[i].onclick = function(){
+                if(isChecked.checked == true){
+                    this.innerHTML = "&nbsp";
+                }
+
+                else if(isChecked.checked == false && this.innerHTML == "V"){
+                    this.nextSibling.innerHTML = "V";
+                    this.previousSibling.innerHTML = "V";
+                }
+
+            }
+       }
+   }
+
+   </script>
+
+<!-------------------------------------------HTML Goes here-------------------------------------------------------------------------->
+
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS355 Exam 1</title>
+
+</head>
+
+<body>
+    <div id = "content">
+
+        <label for = "widthOf">Width: </label>
+        <input type = "number" id = "widthOf" min = "1" max = "9">
+
+        <label for = "heightOf">Height: </label>
+        <input type = "number" id = "heightOf" min = "1" max = "9">
+    
+        <button id = "btn" onclick="buildThis()">BUILD</button>
+
+    </div>
+
+    Cure Mode: <input type="checkbox" id="cure">
+
+    
+    <div id = "board">
+
+    </div>
+
+</body>
+
+</html>
+<!-------------------------------------------End of Document-------------------------------------------------------------------------->
